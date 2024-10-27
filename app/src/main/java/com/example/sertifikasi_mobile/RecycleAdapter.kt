@@ -13,11 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sertifikasi_mobile.SQLite.DataPemilih
 import com.example.sertifikasi_mobile.SQLite.DataPemilihDBHelper
-interface OnDataChangedListener {
-    fun onDataChanged(newCount: Int)
-}
 
-class RecycleAdapter(private val itemList: MutableList<DataPemilih>, private val listener: OnDataChangedListener
+
+class RecycleAdapter(private val itemList: MutableList<DataPemilih>
 ) : RecyclerView.Adapter<RecycleAdapter.ItemViewHolder>() {
     private lateinit var db : DataPemilihDBHelper
 

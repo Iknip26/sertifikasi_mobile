@@ -24,15 +24,6 @@ class MainActivity : AppCompatActivity() {
 
                 val intentToForm = Intent(this@MainActivity, FormActivity::class.java)
                 startActivity(intentToForm)
-
-
-//            listView.adapter = adapter
-//
-//            listView.setOnItemClickListener { parent, view, position, id ->
-//                if(position == 1){
-//                    val intentToInformation = Intent(this@MainActivity, FormActivity::class.java)
-//                    startActivity(intentToInformation)
-//                }
             }
 
             prevDataBtn.setOnClickListener(){

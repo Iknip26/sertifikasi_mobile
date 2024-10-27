@@ -106,12 +106,13 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         }
     }
 
-    private fun createImageFile(): File? {
+    private fun createImageFile(customDirPath: String): File? {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
-        if (storageDir == null) {
-            Log.e("FormActivity", "Storage directory is null")
+        val storageDir = File(customDirPath)
+
+        if (!storageDir.exists() && !storageDir.mkdirs()) {
+            Log.e("FormActivity", "Failed to create custom directory: $customDirPath")
             return null
         }
 
@@ -128,6 +129,7 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             null
         }
     }
+
 
     private fun getFileName(uri: Uri): String? {
         var fileName: String? = null
@@ -162,8 +164,6 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         binding.dateBtn.text = selectedDate
     }
 
-
-//    KONFIMASI DIALOG OK, CREATE DATA DB
     override fun onDialogResult(result: Boolean) {
         db = DataPemilihDBHelper(this)
         if (result) {
@@ -175,7 +175,7 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 val gender = genderInp.trim()
                 val date = dateBtn.text.toString().trim()
                 val address = addressBtn.text.toString().trim()
-                val imageURLS = filenameTxt.text.toString().trim()
+                val imageURLS = filePath?.trim()
                 val dataPemilihInp =
                     imageURLS?.let { DataPemilih(0, name, NIK, contact, gender, date, address, it) }
                 if (dataPemilihInp != null) {
@@ -185,12 +185,11 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             val intentToResult = Intent(this@FormActivity, MainActivity::class.java)
             startActivity(intentToResult)
             finish()
-            Toast.makeText(this@FormActivity, "Data berhasil di tambahkan", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@FormActivity, filePath?.trim(), Toast.LENGTH_SHORT).show()
         }else{
-//            Toast.makeText(this@FormActivity, "GAGALLLL", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@FormActivity, "GAGALLLL", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
@@ -202,6 +201,7 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 val fileName = getFileName(photoUri!!)
                 binding.filenameTxt.visibility = View.VISIBLE
                 binding.filenameTxt.text = fileName
+                filePath = "/storage/emulated/0/DCIM/GambarKamera/$fileName"
             }
         }else{
             Toast.makeText(this@FormActivity, "BUKA KAMERA GAGAL", Toast.LENGTH_SHORT).show()
@@ -215,16 +215,17 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 binding.defaultImg.visibility = View.GONE
                 binding.defaultTextTxt.visibility = View.GONE
                 binding.imageUploadImg.visibility = View.VISIBLE
-                val fileName = uri.toString()
+                val fileName = getFileName(uri)
                 binding.filenameTxt.visibility = View.VISIBLE
                 binding.filenameTxt.text = fileName
+                filePath = getRealPathFromURI(this, uri)
             }
         }
     }
 
     override fun onCameraSelected() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            val photoFile = createImageFile()
+            val photoFile = createImageFile("storage/emulated/0/DCIM/GambarKamera")
             if (photoFile != null) {
                 photoUri?.let { cameraLauncher.launch(it) }
             } else {

@@ -1,6 +1,7 @@
 package com.example.sertifikasi_mobile
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,7 +9,7 @@ import com.example.sertifikasi_mobile.SQLite.DataPemilihDBHelper
 import com.example.sertifikasi_mobile.databinding.ActivityTableBinding
 
 
-class TableActivity : AppCompatActivity(), OnDataChangedListener {
+class TableActivity : AppCompatActivity(){
     private lateinit var itemAdapter: RecycleAdapter
     private lateinit var binding: ActivityTableBinding
     private lateinit var db : DataPemilihDBHelper
@@ -21,18 +22,16 @@ class TableActivity : AppCompatActivity(), OnDataChangedListener {
         headerTitle.text = "LIHAT DATA"
 
         with(binding){
-
             db = DataPemilihDBHelper(this@TableActivity)
             val itemList = db.getAllData()
             recyclerView.layoutManager = LinearLayoutManager(this@TableActivity)
-
-            itemAdapter = RecycleAdapter(itemList, this@TableActivity)
+            itemAdapter = RecycleAdapter(itemList)
+            if(itemAdapter.getItemCount() == 0){
+                emptyDataView.visibility = View.VISIBLE
+            }else{
+                emptyDataView.visibility = View.GONE
+            }
             recyclerView.adapter = itemAdapter
-            binding.bottomText.text = "Jumlah data saat ini : " + itemAdapter.getItemCount().toString()
         }
-    }
-
-    override fun onDataChanged(newCount: Int) {
-        binding.bottomText.text = "Jumlah data saat ini : $newCount"
     }
 }
