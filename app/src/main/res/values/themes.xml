@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Sertifikasi_mobile" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">@color/red_1</item>
+        <item name="android:statusBarColor">@color/white</item> <!-- Warna status bar -->
+        <item name="android:windowLightStatusBar">true</item> <!-- Agar icon di status bar jadi gelap (opsional) -->
+
+    </style>
+
+    <style name="Theme.Sertifikasi_mobile" parent="Base.Theme.Sertifikasi_mobile" />
+</resources>

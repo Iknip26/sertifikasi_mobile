@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_1"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidline_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.85"
+        android:orientation="horizontal"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:alpha="1"
+        android:background="@drawable/gradient_bg"/>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imgAtas"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="56dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="999dp"
+        >
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/pemilu"
+            android:layout_gravity="center"/>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <ImageView
+        android:id="@+id/wave_img"
+        android:layout_width="800dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bendera_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guidline_1"
+        app:layout_constraintVertical_bias="0.499" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/imgAtas"
+        app:layout_constraintBottom_toTopOf="@id/guidline_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="50dp"
+            app:cardElevation="10dp"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/button"
+            app:cardCornerRadius="5dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/information_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="INFORMASI"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
+                android:fontFamily="@font/poppins_regular"
+                android:textAlignment="center"
+                android:elevation="10dp"
+                android:background="@drawable/button"
+                android:drawableStart="@drawable/information"
+                style="@style/defaultText"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="50dp"
+            app:cardElevation="10dp"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/button"
+            app:cardCornerRadius="5dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/form_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
+                android:text="Tambah data"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/button"
+                android:drawableStart="@drawable/add_data"
+                android:elevation="10dp"
+                style="@style/defaultText"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="50dp"
+            app:cardElevation="10dp"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/button"
+            app:cardCornerRadius="5dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/prevData_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
+                android:text="Lihat data"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/button"
+                android:drawableStart="@drawable/preview"
+                android:elevation="10dp"
+                style="@style/defaultText"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="50dp"
+            app:cardElevation="10dp"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/button"
+            app:cardCornerRadius="5dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/exit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
+                android:text="Keluar"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/button"
+                android:drawableStart="@drawable/exit"
+                android:elevation="10dp"
+                style="@style/defaultText"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+    </LinearLayout>2
+
+
+
+
+<!--    <ListView-->
+<!--        android:id="@+id/list_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:layout_marginBottom="24dp"-->
+<!--        android:divider="@android:color/transparent"-->
+<!--        android:dividerHeight="0dp"/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

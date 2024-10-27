@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f0f0f0"
+    tools:context=".FormActivity">
+
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_navbar"
+        />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="24dp"
+            android:layout_marginHorizontal="24dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama"
+                android:layout_marginBottom="8dp"
+                />
+
+            <EditText
+                android:id="@+id/name_EDT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
+                style="@style/defaultText"
+                android:textSize="12sp"
+                android:inputType="text"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/input_alamat"
+                android:drawablePadding="12dp"
+                android:elevation="3dp"
+                android:hint="Masukan nama pemilih"
+                />
+
+            <TextView
+                android:id="@+id/errorName_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_1"
+                android:textAlignment="textEnd"
+                android:text="error"
+                android:visibility="invisible"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NIK"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                />
+
+            <EditText
+                android:id="@+id/NIK_EDT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
+                style="@style/defaultText"
+                android:hint="Masukan NIK pemilih"
+                android:textSize="12sp"
+                android:inputType="number"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/input_alamat"
+                android:drawablePadding="12dp"
+                android:elevation="3dp"
+                />
+
+            <TextView
+                android:id="@+id/errorNIK_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_1"
+                android:textAlignment="textEnd"
+                android:text="error"
+                android:visibility="invisible"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kontak"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                />
+
+            <EditText
+                android:id="@+id/contact_EDT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
+                style="@style/defaultText"
+                android:hint="Masukan kontak pemilih"
+                android:textSize="12sp"
+                android:inputType="number"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/input_alamat"
+                android:drawablePadding="12dp"
+                android:elevation="3dp"
+                />
+
+            <TextView
+                android:id="@+id/errorContact_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_1"
+                android:textAlignment="textEnd"
+                android:text="error"
+                android:visibility="gone"
+                />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender : "
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_weight="1"
+                    />
+
+                <RadioGroup
+                    android:id="@+id/gender_radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/laki_laki_radioBTN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="1dp"
+                        style="@style/defaultText"
+                        android:textSize="15sp"
+                        android:text="Laki - Laki"
+                        android:layout_marginEnd="20dp"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/perempuan_radioBTN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/radiobutton"
+                        style="@style/defaultText"
+                        android:textSize="15sp"
+                        android:text="Perempuan" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/date_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                style="@style/defaultText"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/input_alamat"
+                android:hint="Masukan tanggal pendataan"
+                android:textAlignment="textStart"
+                android:drawableEnd="@drawable/date"
+                android:drawablePadding="12dp"
+                android:paddingHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                />
+
+            <TextView
+                android:id="@+id/errorDate_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_1"
+                android:textAlignment="textEnd"
+                android:text="required"
+                android:visibility="invisible"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/address_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                style="@style/defaultText"
+                android:textSize="12sp"
+                android:text="ALAMAT SAYA"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/input_alamat"
+                android:hint="Masukan alamat pemilih"
+                android:textAlignment="textStart"
+                android:drawableEnd="@drawable/map"
+                android:drawablePadding="12dp"
+                android:paddingHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                />
+
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/address_linearLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:background="@drawable/input_alamat"-->
+<!--                android:layout_marginTop="24dp">-->
+
+<!--                <androidx.appcompat.widget.AppCompatButton-->
+<!--                    android:id="@+id/address_btn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Masukan Alamat pemilihan"-->
+<!--                    android:background="@android:color/transparent"-->
+<!--                    android:textAlignment="textStart"-->
+<!--                    style="@style/defaultText"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:fontFamily="@font/poppins_regular"-->
+<!--                    android:drawableStart="@drawable/baseline_location_on_24"-->
+<!--                    android:paddingHorizontal="12dp"-->
+<!--                    android:drawablePadding="12dp"-->
+<!--                    android:layout_weight="3"/>-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textSize="12dp"-->
+<!--                    android:fontFamily="@font/poppins_bold"-->
+<!--                    android:text="Ubah"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+
+<!--            </LinearLayout>-->
+
+            <TextView
+                android:id="@+id/errorAddress_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_1"
+                android:textAlignment="textEnd"
+                android:text="required"
+                android:visibility="invisible"
+                />
+
+            <LinearLayout
+                android:id="@+id/file_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_strip"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:elevation="5dp"
+                >
+
+                <ImageView
+                    android:id="@+id/default_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/upload"
+                    android:layout_marginTop="32dp"
+                    android:visibility="visible"
+                    />
+
+                <ImageView
+                    android:id="@+id/imageUpload_img"
+                    android:background="@drawable/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/defaultText_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:paddingHorizontal="24dp"
+                    style="@style/defaultText"
+                    android:textSize="12sp"
+                    android:text="Upload gambar sebagai bukti telah melakukan pemilihan"
+                    android:textAlignment="center"
+                    android:visibility="visible"
+                    />
+
+                <TextView
+                    android:id="@+id/filename_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="20dp"
+                    android:paddingHorizontal="16dp"
+                    android:background="@drawable/button"
+                    style="@style/defaultText"
+                    android:textSize="12sp"
+                    android:text="file gambar.jpg"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/submit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:layout_marginTop="24dp"
+                android:text="Simpan"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button"
+                android:backgroundTint="@color/red_1"
+        />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
