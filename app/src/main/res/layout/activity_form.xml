@@ -180,6 +180,12 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Input Data"
+                android:layout_marginTop="16dp"
+                />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/date_btn"
@@ -195,7 +201,7 @@
                 android:drawableEnd="@drawable/date"
                 android:drawablePadding="12dp"
                 android:paddingHorizontal="12dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 />
 
             <TextView
@@ -208,22 +214,46 @@
                 android:visibility="invisible"
                 />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/address_btn"
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alamat"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                />
+
+            <EditText
+                android:id="@+id/address_edt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="12dp"
                 style="@style/defaultText"
+                android:hint="Masukan kontak pemilih"
                 android:textSize="12sp"
-                android:text="ALAMAT SAYA"
+                android:inputType="text"
                 android:fontFamily="@font/poppins_regular"
                 android:background="@drawable/input_alamat"
-                android:hint="Masukan alamat pemilih"
-                android:textAlignment="textStart"
-                android:drawableEnd="@drawable/map"
                 android:drawablePadding="12dp"
-                android:paddingHorizontal="12dp"
+                android:elevation="3dp"
+                />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/address_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:textSize="12sp"
+                android:text="Ambil lewat map"
+                android:textColor="@color/white"
+                android:fontFamily="@font/poppins_bold"
+                android:background="@drawable/input_alamat"
+                android:backgroundTint="@color/yellow"
+                android:hint="Masukan alamat pemilih"
                 android:layout_marginTop="24dp"
+                android:layout_gravity="end"
                 />
 
 
@@ -307,7 +337,7 @@
                     android:paddingHorizontal="24dp"
                     style="@style/defaultText"
                     android:textSize="12sp"
-                    android:text="Upload gambar sebagai bukti telah melakukan pemilihan"
+                    android:text="Upload gambar sebagai bukti"
                     android:textAlignment="center"
                     android:visibility="visible"
                     />

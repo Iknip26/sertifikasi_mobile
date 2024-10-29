@@ -1,26 +1,35 @@
 package com.example.sertifikasi_mobile
 
 import android.Manifest
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.drawable.Drawable
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
@@ -31,6 +40,14 @@ import com.example.sertifikasi_mobile.SQLite.DataPemilihDBHelper
 import com.example.sertifikasi_mobile.databinding.ActivityFormBinding
 import com.example.sertifikasi_mobile.databinding.DialogConfirmBinding
 import com.example.sertifikasi_mobile.databinding.OpenFileDialogBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -39,16 +56,19 @@ import java.util.Date
 import java.util.Locale
 
 
-class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
+class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, CekLokasiDialogFragment.LocationListener,
     DialogOpenFile.OnOptionSelectedListener, DialogConfirm.DialogListener {
     private lateinit var binding: ActivityFormBinding
     private var photoUri: Uri? = null
     private var filePath: String? = ""
     private lateinit var genderInp : String
     private lateinit var db : DataPemilihDBHelper
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     companion object {
         private const val CAMERA_PERMISSION_REQUEST_CODE = 100
+        const val LOCATION_PERMISSION_REQUEST_CODE = 1001
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +79,7 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         genderInp = ""
         val headerTitle = findViewById<TextView>(R.id.headerTitle_txt)
         headerTitle.text = "TAMBAH DATA"
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@FormActivity)
 
         with(binding){
             dateBtn.setOnClickListener {
@@ -81,6 +102,11 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 }
             }
 
+            addressBtn.setOnClickListener(){
+                val dialog = CekLokasiDialogFragment()
+                dialog.show(supportFragmentManager, "Dialog Maps")
+            }
+
             genderRadioGroup.setOnCheckedChangeListener { group, checkedId ->
                 when (checkedId) {
                     R.id.perempuan_radioBTN -> {
@@ -93,6 +119,43 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             }
 
         }
+    }
+
+    private fun getAddressInfo(latitude:Double, longitude:Double) {
+        val geocoder = Geocoder(this@FormActivity, Locale.getDefault())
+        val addresses: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
+        val address: String = addresses!![0].getAddressLine(0)
+        binding.addressEdt.setText(address)
+    }
+
+    private fun getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this@FormActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this@FormActivity,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@FormActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+            return
+        }
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    getAddressInfo(location.latitude,location.longitude)
+                } else {
+                    Log.e("CurrentLocation", "Location not found")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("CurrentLocation", "Failed to get location: ${e.message}")
+            }
     }
 
     fun fieldNotEmpty(): Boolean {
@@ -174,7 +237,7 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 val contact = contactEDT.text.toString().trim()
                 val gender = genderInp.trim()
                 val date = dateBtn.text.toString().trim()
-                val address = addressBtn.text.toString().trim()
+                val address = addressEdt.text.toString().trim()
                 val imageURLS = filePath?.trim()
                 val dataPemilihInp =
                     imageURLS?.let { DataPemilih(0, name, NIK, contact, gender, date, address, it) }
@@ -185,7 +248,7 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             val intentToResult = Intent(this@FormActivity, MainActivity::class.java)
             startActivity(intentToResult)
             finish()
-            Toast.makeText(this@FormActivity, filePath?.trim(), Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@FormActivity, filePath?.trim(), Toast.LENGTH_SHORT).show()
         }else{
             Toast.makeText(this@FormActivity, "GAGALLLL", Toast.LENGTH_SHORT).show()
         }
@@ -250,6 +313,10 @@ class FormActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         } else {
             Toast.makeText(this, "Camera permission is required to use the camera.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onLocationSelected(latLng: LatLng) {
+        getAddressInfo(latLng.latitude, latLng.longitude)
     }
 }
 
@@ -335,5 +402,109 @@ class DialogConfirm : DialogFragment() {
         }
         builder.setView(binding.root)
         return builder.create()
+    }
+}
+
+class CekLokasiDialogFragment : DialogFragment() {
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var googleMap: GoogleMap
+
+    private var currentLatLng: LatLng? = null
+    private var locationListener: LocationListener? = null
+
+
+    // Define the launcher for requesting location permissions
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            if (permissions[ACCESS_FINE_LOCATION] == true ||
+                permissions[ACCESS_COARSE_LOCATION] == true
+            ) {
+                // Permission granted
+                getCurrentLocation()
+            } else {
+                // Permission denied
+                // Handle what to do if the user denies the permission
+            }
+        }
+
+    private val callback = OnMapReadyCallback { map ->
+        googleMap = map
+        getCurrentLocation()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_maps, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+    }
+
+    private fun getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+//            ActivityCompat.requestPermissions(requireActivity(), arrayOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+
+            // Launch permission request using the new API
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    ACCESS_FINE_LOCATION,
+                    ACCESS_COARSE_LOCATION
+                )
+            )
+
+            return
+        }
+
+        googleMap.isMyLocationEnabled = true
+
+        // Get the last known location
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                currentLatLng = LatLng(it.latitude, it.longitude)
+                googleMap.addMarker(MarkerOptions().position(currentLatLng!!).title("Posisimu"))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng!!, 15f))
+            }
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        currentLatLng?.let {
+            locationListener?.onLocationSelected(it)
+        }
+    }
+
+    interface LocationListener {
+        fun onLocationSelected(latLng: LatLng)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        locationListener = context as? LocationListener
     }
 }

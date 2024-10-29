@@ -85,7 +85,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/grey1"
-                android:background="@drawable/baseline_delete_forever_24"/>
+                android:background="@drawable/baseline_disabled_by_default_24"/>
 
             <TextView
                 android:layout_width="match_parent"

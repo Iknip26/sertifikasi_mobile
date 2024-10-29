@@ -1,6 +1,7 @@
 package com.example.sertifikasi_mobile
 
 import android.R
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -31,6 +32,15 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intentToPreview)
             }
 
+            informationBtn.setOnClickListener(){
+                val intentToInfo = Intent(this@MainActivity, InformationActivity::class.java)
+                startActivity(intentToInfo)
+            }
+
+            exitBtn.setOnClickListener(){
+                finish()
+                System.exit(0)
+            }
             }
         }
 }
